@@ -19,7 +19,7 @@ if(getTextbox("name", "")!="")
 		$stations = $libStation->searchStations(getTextbox("name", ""));
 		$eCache->add("station_".getTextbox("name", ""), $stations, 60*60*2);
 	}
-	if(count($stations)==1)
+	if(isBahnhof(getTextbox("name", ""), $stations))
 	{
 		$reqeustid = requestID();
 		if(!$treffer = $eCache->get("treffer_".$reqeustid))
@@ -118,7 +118,7 @@ if(getTextbox("name", "")!="")
 						</div>
 						<div class="col-md-6">
 							<label for="">Mindest dauer der Bahnfahrt:</label><br>
-							<input name="reisedauer" style="width:60;float:left;" class="form-control" <?php echo getTextbox("reisedauer", "20", true); ?>><span style="float:left;padding-top:8px;"> Minuten</span>
+							<input name="reisedauer" style="width:60;float:left;" class="form-control" <?php echo getTextbox("reisedauer", "40", true); ?>><span style="float:left;padding-top:8px;"> Minuten</span>
 						</div>
 						
 				</div>
@@ -134,9 +134,10 @@ if(getTextbox("name", "")!="")
 	<div class="col-md-3"></div>
 	<div class="col-md-6">
 <?php
-if(isset($stations)&&count($stations)>1)
+if(isset($stations)&&count($stations)>1&&!isset($treffer))
 {
 	echo "W&auml;hle deinen Bahnhof und dr&uuml;cke erneut auf 'Suchen'<br><br>";
+	#var_dump($stations);
 	foreach($stations as $station)
 	{
 		?>
@@ -155,7 +156,14 @@ if(isset($treffer))
 	else
 	{
 		$zufall = rand(0, count($treffer)-1);
-		echo "<br><center>Fahre mit dem ".$treffer[$zufall][0]["typ"]." ".$treffer[$zufall][0]["nummer"]." (Abfahrt: ".$treffer[$zufall][0]["abfahrt"].") nach ".$treffer[$zufall][1]["name"]." ankunft um ".$treffer[$zufall][1]["time"]."</center>";
+		?>
+		<div class="jumbotron">
+		  <h1><?php echo $treffer[$zufall][0]["typ"]." ".$treffer[$zufall][0]["nummer"]; ?></h1>
+		  <p>Von <?php echo getTextbox("name", ""); ?>, Abfahrt um <?php echo $treffer[$zufall][0]["abfahrt"]; ?> auf Gleis <?php echo $treffer[$zufall][0]["platform"]; ?>
+		  <p>Nach <b><?php echo $treffer[$zufall][1]["name"]; ?></b>, Ankunft um  <?php echo $treffer[$zufall][1]["time"]; ?></p>
+		</div>
+		<?php
+		#echo "<br><center>Fahre mit dem ".$treffer[$zufall][0]["typ"]." ".$treffer[$zufall][0]["nummer"]." (Abfahrt: ".$treffer[$zufall][0]["abfahrt"].") nach ".$treffer[$zufall][1]["name"]." ankunft um ".$treffer[$zufall][1]["time"]."</center>";
 	}
 	if(count($treffer)>1)
 	{

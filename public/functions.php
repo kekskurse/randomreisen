@@ -104,3 +104,14 @@ function requestID()
 	return md5($string);
 	#var_dump($_GET);
 }
+function isBahnhof($name, $stationlist)
+{
+	foreach($stationlist as $station)
+	{
+		if($station["value"] == $name)
+		{
+			return true;
+		}
+	}
+	return false;
+}

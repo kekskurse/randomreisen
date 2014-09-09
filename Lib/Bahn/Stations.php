@@ -94,6 +94,8 @@ class Stations
 			$t["typ"] = substr($matches[2][$i], 0, strpos($matches[2][$i], " "));
 			$t["nummer"] = trim(substr($matches[2][$i], strrpos($matches[2][$i], " ")));
 			$t["lastStation"] = $matches[3][$i];
+			$t["platform"] = $matches[5][$i];
+			#var_dump($matches[5][$i]);
 
 			$tmp = explode("\n", $matches[4][$i]);
 			$station = array();
