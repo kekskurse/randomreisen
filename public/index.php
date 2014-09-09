@@ -124,7 +124,7 @@ if(\Lib\Common\Formdata::getTextbox("name", "")!="")
 						
 				</div>
 			</div>
-			<input class="btn btn-default" type="submit" value="Suchen" style="float:right;">
+			<input class="btn btn-default" type="submit" name="submit" value="Suchen" style="float:right;">
 		</form>
 	</div>
 	<div class="col-md-3"></div>
