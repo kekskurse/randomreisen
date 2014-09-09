@@ -1,14 +1,25 @@
 {
 	"repositories": [
-        { "type": "vcs", "url": "https://github.com/easylib/easycache.git" }
+        { "type": "vcs", "url": "https://github.com/easylib/easycache.git" },
+        { "type": "vcs", "url": "git@git.byte.gs:sspssp/bootstrap.git" }
     ],
     "require": {
         "anlutro/curl": "dev-master",
-        "easylib/easycache": "dev-master"
+        "easylib/easycache": "dev-master",
+        "sspssp/bootstrap": "3.2.0",
+        "yiisoft/jquery": "2.1.1"
     },
     "autoload": {
         "psr-0": {
             "Lib\\": ""
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+        	"rm -f public/bootstrap",
+            "ln -s ../vendor/sspssp/bootstrap/ public/bootstrap",
+            "rm -f public/jquery",
+            "ln -s ../vendor/yiisoft/jquery/ public/jquery"
+        ]
     }
 }

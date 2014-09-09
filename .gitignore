@@ -2,3 +2,7 @@ composer.lock
 composer.phar
 vendor/
 vendor/*
+public/bootstrap
+public/jquery
+public/bootstrap/*
+public/jquery/*
