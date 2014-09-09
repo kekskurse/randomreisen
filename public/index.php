@@ -2,6 +2,7 @@
 <head>
 	<title>Random Reisen</title>
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/sticky-footer.css" rel="stylesheet">
 	<script src="jquery/jquery.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 </head>
@@ -174,3 +175,12 @@ if(isset($treffer))
 	</div>
 	<div class="col-md-3"></div>
 </div>
+<div class="row" style="margin-top:10px;">
+	<div class="footer">
+      <div class="container">
+        <p class="text-muted">Quellcode: <a target="_blank" href="https://github.com/sspssp/randomreisen">Github</a> - Datenquelle: <a target="_blank" href="http://reiseauskunft.bahn.de/bin/bhftafel.exe">Bahn</a></p>
+      </div>
+    </div>
+	</div>
+
+
