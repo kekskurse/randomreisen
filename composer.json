@@ -1,0 +1,14 @@
+{
+	"repositories": [
+        { "type": "vcs", "url": "https://github.com/easylib/easycache.git" }
+    ],
+    "require": {
+        "anlutro/curl": "dev-master",
+        "easylib/easycache": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Lib\\": ""
+        }
+    }
+}
