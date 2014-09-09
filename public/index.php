@@ -6,6 +6,8 @@
 	<script src="jquery/jquery.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 </head>
+<body>
+	
 <?php
 ini_set("display_errors", 1);
 date_default_timezone_set("Europe/Berlin");
@@ -162,6 +164,8 @@ if(isset($treffer))
 		  <h1><?php echo $treffer[$zufall][0]["typ"]." ".$treffer[$zufall][0]["nummer"]; ?></h1>
 		  <p>Von <?php echo \Lib\Common\Formdata::getTextbox("name", ""); ?>, Abfahrt um <?php echo $treffer[$zufall][0]["abfahrt"]; ?> auf Gleis <?php echo $treffer[$zufall][0]["platform"]; ?>
 		  <p>Nach <b><?php echo $treffer[$zufall][1]["name"]; ?></b>, Ankunft um  <?php echo $treffer[$zufall][1]["time"]; ?></p>
+		  <a href="https://twitter.com/intent/tweet?button_hashtag=randomReisen&text=Ich%20fahre%20heute%20mit%20dem%20<?php echo $treffer[$zufall][0]["typ"]; ?>%20<?php echo $treffer[$zufall][0]["nummer"]; ?>%20nach%20<?php echo $treffer[$zufall][1]["name"]; ?>" class="twitter-hashtag-button" daa-url="<?php echo substr("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"], 0, strpos($_SERVER["REQUEST_URI"], "?")); ?>">Tweet #randomReise</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 		</div>
 		<?php
 		#echo "<br><center>Fahre mit dem ".$treffer[$zufall][0]["typ"]." ".$treffer[$zufall][0]["nummer"]." (Abfahrt: ".$treffer[$zufall][0]["abfahrt"].") nach ".$treffer[$zufall][1]["name"]." ankunft um ".$treffer[$zufall][1]["time"]."</center>";
@@ -184,3 +188,4 @@ if(isset($treffer))
 	</div>
 
 
+</body>
