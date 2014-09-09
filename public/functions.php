@@ -54,42 +54,6 @@ function getSelect($name, $value, $default="", $retValue = true)
 	}
 
 }
-function filter($trains, $min, $max, $dauer = NULL)
-{
-	$treffer = array();
-	foreach($trains as $train)
-	{
-		#echo "<b>".$train["typ"]." ".$train["nummer"]."</b><br>";
-		foreach($train["station"] as $station)
-		{
-			if($station["timestamp"]>=$min && $station["timestamp"]<=$max)
-			{
-				#echo "<li>".$train["typ"]." ".$train["nummer"]." nach ".$station["name"]." Ankunft um: ".$station["time"];
-				if($dauer!=NULL)
-				{
-					$g = explode(":", $train["abfahrt"]);
-					$start = mktime($g[0], $g[1]);
-					$da = $station["timestamp"]-$start;
-					if($da < $dauer * 60)
-					{
-
-					}
-					else
-					{
-						$treffer[] = array($train, $station);
-					}
-
-				}
-				else
-				{
-					$treffer[] = array($train, $station);
-				}
-				
-			}
-		}
-	}
-	return $treffer;
-}
 function requestID()
 {
 	$string = "";
@@ -103,15 +67,4 @@ function requestID()
 	}
 	return md5($string);
 	#var_dump($_GET);
-}
-function isBahnhof($name, $stationlist)
-{
-	foreach($stationlist as $station)
-	{
-		if($station["value"] == $name)
-		{
-			return true;
-		}
-	}
-	return false;
 }

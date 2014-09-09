@@ -10,19 +10,19 @@
 ini_set("display_errors", 1);
 date_default_timezone_set("Europe/Berlin");
 include("../vendor/autoload.php");
-include("functions.php");
+#include("functions.php");
 $libStation = new Lib\Bahn\Stations();
 $eCache = new easylib\easycache\easycache();
-if(getTextbox("name", "")!="")
+if(\Lib\Common\Formdata::getTextbox("name", "")!="")
 {
-	if(!$stations = $eCache->get("station_".getTextbox("name", "")))
+	if(!$stations = $eCache->get("station_".\Lib\Common\Formdata::getTextbox("name", "")))
 	{
-		$stations = $libStation->searchStations(getTextbox("name", ""));
-		$eCache->add("station_".getTextbox("name", ""), $stations, 60*60*2);
+		$stations = $libStation->searchStations(\Lib\Common\Formdata::getTextbox("name", ""));
+		$eCache->add("station_".\Lib\Common\Formdata::getTextbox("name", ""), $stations, 60*60*2);
 	}
-	if(isBahnhof(getTextbox("name", ""), $stations))
+	if(\Lib\Common\Bahn::isBahnhof(\Lib\Common\Formdata::getTextbox("name", ""), $stations))
 	{
-		$reqeustid = requestID();
+		$reqeustid = \Lib\Common\Formdata::requestID();
 		if(!$treffer = $eCache->get("treffer_".$reqeustid))
 		{
 			$typ = array();
@@ -43,10 +43,10 @@ if(getTextbox("name", "")!="")
 				$typ[] = "NV";
 			}
 			$t = mktime($_GET["stunde"], $_GET["minuten"]);
-			$trains = $libStation->nextTrains(getTextbox("name", ""), $t, $typ);
+			$trains = $libStation->nextTrains(\Lib\Common\Formdata::getTextbox("name", ""), $t, $typ);
 			$min = time() + ($_GET["dauer"]-$_GET["pm"]) * 60;
 			$max = time() + ($_GET["dauer"]+$_GET["pm"]) * 60;
-			$treffer = filter($trains, $min, $max, $_GET["reisedauer"]);
+			$treffer = \Lib\Common\Bahn::filter($trains, $min, $max, $_GET["reisedauer"]);
 			$eCache->add("treffer_".$reqeustid, $treffer, 60*60);
 		}
 		#var_dump(count($treffer));
@@ -69,7 +69,7 @@ if(getTextbox("name", "")!="")
 					<div class="form-group">
 						<label for="">Startbahnhof</label><br>
 						<div class="col-md-12">
-							<input type="text" style="width:100%" class="form-control" name="name" id="name" <?php echo getTextbox("name", "", true); ?> placeholder="Bahnhof">
+							<input type="text" style="width:100%" class="form-control" name="name" id="name" <?php echo \Lib\Common\Formdata::getTextbox("name", "", true); ?> placeholder="Bahnhof">
 						</div>
 					</div>
 					<div class="row" style="padding-top:40px;">
@@ -79,16 +79,16 @@ if(getTextbox("name", "")!="")
 								<br>
 								<div class="row">
 									<div class="col-md-3">
-										<input type="checkbox" name="ice" <?php echo getCheckbox("ice", true, true, "submit"); ?>> <img src="http://www.img-bahn.de/v/1131/img/ice_24x24.gif">
+										<input type="checkbox" name="ice" <?php echo \Lib\Common\Formdata::getCheckbox("ice", true, true, "submit"); ?>> <img src="http://www.img-bahn.de/v/1131/img/ice_24x24.gif">
 									</div>
 									<div class="col-md-3">
-										<input type="checkbox" name="ic" <?php echo getCheckbox("ic", true, true, "submit"); ?>> <img src="http://www.img-bahn.de/v/1131/img/ec_ic_24x24.gif">
+										<input type="checkbox" name="ic" <?php echo \Lib\Common\Formdata::getCheckbox("ic", true, true, "submit"); ?>> <img src="http://www.img-bahn.de/v/1131/img/ec_ic_24x24.gif">
 									</div>
 									<div class="col-md-3">
-										<input type="checkbox" name="d" <?php echo getCheckbox("d", false, true, "submit"); ?>> <img src="http://www.img-bahn.de/v/1131/img/ir_24x24.gif">
+										<input type="checkbox" name="d" <?php echo \Lib\Common\Formdata::getCheckbox("d", false, true, "submit"); ?>> <img src="http://www.img-bahn.de/v/1131/img/ir_24x24.gif">
 									</div>
 									<div class="col-md-3">
-										<input type="checkbox" name="nv" <?php echo getCheckbox("nv", false, true, "submit"); ?>> <img src="http://www.img-bahn.de/v/1131/img/re_24x24.gif">
+										<input type="checkbox" name="nv" <?php echo \Lib\Common\Formdata::getCheckbox("nv", false, true, "submit"); ?>> <img src="http://www.img-bahn.de/v/1131/img/re_24x24.gif">
 									</div>
 								</div>
 							</div>
@@ -96,7 +96,7 @@ if(getTextbox("name", "")!="")
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="">Reisebeginn</label><br>
-								<input name="stunde" style="width:50px;float:left;" class="form-control" <?php echo getTextbox("stunde", date("H"), true); ?>><span style="float:left;padding-top:5px;">:</span><input name="minuten" class="form-control" style="width:50px;float:left;" <?php echo getTextbox("minuten", date("i"), true); ?>><br>
+								<input name="stunde" style="width:50px;float:left;" class="form-control" <?php echo \Lib\Common\Formdata::getTextbox("stunde", date("H"), true); ?>><span style="float:left;padding-top:5px;">:</span><input name="minuten" class="form-control" style="width:50px;float:left;" <?php echo \Lib\Common\Formdata::getTextbox("minuten", date("i"), true); ?>><br>
 							</div>
 						</div>
 					</div>
@@ -106,20 +106,20 @@ if(getTextbox("name", "")!="")
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="">Ankunft in</label><br>
-								<input name="dauer" class="form-control" style="width:60;float:left;" <?php echo getTextbox("dauer", "60", true); ?>>
+								<input name="dauer" class="form-control" style="width:60;float:left;" <?php echo \Lib\Common\Formdata::getTextbox("dauer", "60", true); ?>>
 								<select name="pm" class="form-control" style="width:110px;float:left;">
-									<option value="5" <?php echo getSelect("pm", "5", "5", true) ?>>+/- 5</option>
-									<option value="10" <?php echo getSelect("pm", "10", "5", true) ?>>+/- 10</option>
-									<option value="15" <?php echo getSelect("pm", "15", "5", true) ?>>+/- 15</option>
-									<option value="20" <?php echo getSelect("pm", "20", "5", true) ?>>+/- 20</option>
-									<option value="60" <?php echo getSelect("pm", "60", "5", true) ?>>+/- 60</option>
-									<option value="120" <?php echo getSelect("pm", "120", "5", true) ?>>+/- 120</option>
+									<option value="5" <?php echo \Lib\Common\Formdata::getSelect("pm", "5", "5", true) ?>>+/- 5</option>
+									<option value="10" <?php echo \Lib\Common\Formdata::getSelect("pm", "10", "5", true) ?>>+/- 10</option>
+									<option value="15" <?php echo \Lib\Common\Formdata::getSelect("pm", "15", "5", true) ?>>+/- 15</option>
+									<option value="20" <?php echo \Lib\Common\Formdata::getSelect("pm", "20", "5", true) ?>>+/- 20</option>
+									<option value="60" <?php echo \Lib\Common\Formdata::getSelect("pm", "60", "5", true) ?>>+/- 60</option>
+									<option value="120" <?php echo \Lib\Common\Formdata::getSelect("pm", "120", "5", true) ?>>+/- 120</option>
 								</select> <span style="float:left;margin-top:8px;"> Minuten</span>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<label for="">Mindest dauer der Bahnfahrt:</label><br>
-							<input name="reisedauer" style="width:60;float:left;" class="form-control" <?php echo getTextbox("reisedauer", "40", true); ?>><span style="float:left;padding-top:8px;"> Minuten</span>
+							<input name="reisedauer" style="width:60;float:left;" class="form-control" <?php echo \Lib\Common\Formdata::getTextbox("reisedauer", "40", true); ?>><span style="float:left;padding-top:8px;"> Minuten</span>
 						</div>
 						
 				</div>
@@ -160,7 +160,7 @@ if(isset($treffer))
 		?>
 		<div class="jumbotron">
 		  <h1><?php echo $treffer[$zufall][0]["typ"]." ".$treffer[$zufall][0]["nummer"]; ?></h1>
-		  <p>Von <?php echo getTextbox("name", ""); ?>, Abfahrt um <?php echo $treffer[$zufall][0]["abfahrt"]; ?> auf Gleis <?php echo $treffer[$zufall][0]["platform"]; ?>
+		  <p>Von <?php echo \Lib\Common\Formdata::getTextbox("name", ""); ?>, Abfahrt um <?php echo $treffer[$zufall][0]["abfahrt"]; ?> auf Gleis <?php echo $treffer[$zufall][0]["platform"]; ?>
 		  <p>Nach <b><?php echo $treffer[$zufall][1]["name"]; ?></b>, Ankunft um  <?php echo $treffer[$zufall][1]["time"]; ?></p>
 		</div>
 		<?php
