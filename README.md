@@ -9,4 +9,4 @@ Die Installation ist mittels Composer möglich, führe folgende Befehle auf eine
 
 Demo
 ----
-Onlinedemo: [Demo](http://home.byte.gs/randomreisen/public/)
+Onlinedemo: [Demo](http://randomreisen.appspot.com/)
