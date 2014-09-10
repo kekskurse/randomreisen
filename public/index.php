@@ -183,7 +183,7 @@ if(isset($treffer))
 <div class="row" style="margin-top:10px;">
 	<div class="footer">
       <div class="container">
-        <p class="text-muted">Quellcode: <a target="_blank" href="https://github.com/sspssp/randomreisen">Github</a> - Datenquelle: <a target="_blank" href="http://reiseauskunft.bahn.de/bin/bhftafel.exe">Bahn</a></p>
+        <p class="text-muted">Quellcode: <a target="_blank" href="https://github.com/sspssp/randomreisen">Github</a> - Datenquelle: <a target="_blank" href="http://reiseauskunft.bahn.de/bin/bhftafel.exe">Bahn</a> - Kontakt: kruemel@byte.gs</p>
       </div>
     </div>
 	</div>

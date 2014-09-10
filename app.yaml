@@ -1,0 +1,17 @@
+application: randomreisen 
+version: 1
+runtime: php
+api_version: 1
+
+handlers:
+- url: /bootstrap
+  static_dir: vendor/sspssp/bootstrap/
+
+- url: /css
+  static_dir: public/css
+
+- url: /jquery
+  static_dir: public/jquery
+
+- url: /.*
+  script: public/index.php

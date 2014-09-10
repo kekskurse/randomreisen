@@ -5,13 +5,13 @@ class Stations
 {
 	public function __construct()
 	{
-		$this->curl = new \anlutro\cURL\cURL;
+		$this->curl = new Nocurl();
 	}
 	public function searchStations($name)
 	{
-		$url = "http://reiseauskunft.bahn.de/bin/ajax-getstop.exe/dn?REQ0JourneyStopsS0A=1&REQ0JourneyStopsF=excludeMetaStations&REQ0JourneyStopsS0G=".$name."?&js=true&";
+		$url = "http://reiseauskunft.bahn.de/bin/ajax-getstop.exe/dn?REQ0JourneyStopsS0A=1&REQ0JourneyStopsF=excludeMetaStations&REQ0JourneyStopsS0G=".urlencode($name)."?&js=true&";
 		$data = $this->curl->get($url);
-		$body = $data->body;
+		$body = $data;#->body;
 		$regex = '@"value":"([^"]*)","id":"([^"]*)","extId":"([0-9]*)","type":"([^"]*)","typeStr":"([^"]*)","xcoord":"([0-9]*)","ycoord":"([0-9]*)","state":"([^"]*)","prodClass":"([0-9]*)","weight":"([0-9]*)"@';
 		preg_match_all($regex, $body, $matches);
 		#var_dump($matches);exit();
@@ -31,10 +31,10 @@ class Stations
 			$res[] = $t;
 		}
 		return $res;
-		var_dump($body);
-		var_dump(json_decode($body));
-		$detais = json_decode($body, true);
-		return $detais;
+		#var_dump($body);
+		#var_dump(json_decode($body));
+		#$detais = json_decode($body, true);
+		#return $detais;
 	}
 	public function nextTrains($staion, $timeStamp, $typ = array("ICE", "IC", "D", "NV"))
 	{
@@ -83,9 +83,9 @@ class Stations
 			$data["GUIREQProduct_8"]="on";
 		}
 		$data  = $this->curl->post($url, $data);
-
+		$body = $data;#->body;
 		$regex = '@<tr\sid="journeyRow_[0-9]*"\sclass="[^"]*">\s<td\sclass="time">([0-9]{2}:[0-9]{2})</td>\s<td\sclass="train"><a href="[^"]*"><img\ssrc="[^"]*"\sclass="middle"\salt=""\s/></a></td><td class="train">\s<a\shref="[^"]*">\s([^<]*)\s</a>\s</td>\s<td class="route">\s<span class="bold">\s<a onclick="[^"]*"\shref="[^"]*">\s([^<]*)\s</a>\s</span>\s<br\s/>([^<]*)\s</td>\s<td\sclass="platform">\s<strong>([^<]*)</strong>@m';
-		preg_match_all($regex, $data->body, $matches);
+		preg_match_all($regex, $body, $matches);
 		$res = array();
 		for($i=0;$i<count($matches[0]);$i++)
 		{
