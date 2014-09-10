@@ -13,7 +13,8 @@ class Nocurl
 		$context = [
 		  'http' => [
 		    'method' => 'POST',
-		    'content' => $data
+		    'content' => $data,
+		    'header'  => 'Content-type: application/x-www-form-urlencoded',
 		  ]
 		];
 		$context = stream_context_create($context);
